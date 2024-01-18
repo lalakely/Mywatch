@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mywatch</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="stopwatch">
+        <div class="time">
+            <h1 id="displaySecMinHour">00 h 00 min 00 s </h1>
+            <h1 id="displayMs">00</h1>
+        </div>
+        <div class="buttons">
+            <img src="./img/stop-removebg-preview.png" onclick="stop()">
+            <img src="./img/play-removebg-preview.png" onclick="watchStart()">
+            <img src="./img/return-removebg-preview.png" onclick="returnTo()">
+        </div>
+    </div>
+<script>
+    let [mseconds , seconds , minutes , hours] = [0 , 0 , 0 , 0];
+    let displaySecMinHour = document.getElementById("displaySecMinHour");
+    let timer = null;
+    let displayMs = document.getElementById("displayMs");
+
+    function stopwatch(){
+        mseconds++;
+        if (mseconds == 100){
+            mseconds = 0;
+            seconds++;
+            if(seconds == 60){
+                seconds = 0;
+            minutes++;
+                if(minutes == 60){
+                    minutes = 0;
+                    hours++;
+                }
+            }
+        }
+        
+        
+        let h = hours < 10 ? "0" + hours : hours;
+        let m = minutes < 10 ? "0" + minutes : minutes;
+        let s = seconds < 10 ? "0" + seconds : seconds;
+        let ms = mseconds < 10 ? "0" + mseconds : mseconds;
+ 
+        displaySecMinHour.innerHTML = h +" h "+ m + " min " + s +" s ";
+        displayMs.innerHTML = ms;
+    }
+
+    function watchStart(){
+        if(timer !== null){
+            clearInterval(timer);
+        }
+        timer = setInterval(stopwatch, 10);
+    }
+
+    function stop(){
+        clearInterval(timer);
+    }
+
+    function returnTo(){
+        clearInterval(timer);
+        [mseconds,seconds , minutes , hours] = [0 ,0 , 0 , 0];
+        displaySecMinHour.innerHTML = "00 h 00 min 00 s";
+        displayMs.innerHTML = "00";
+    }
+</script>
+</body>
+</html>
